@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "maxNodeModuleJsDepth": 10,
+    "module": "ES6",
+    "noEmit": true,
+    "strict": true
+  },
+  "typeAcquisition": {
+    "enable": false
+  }
+}

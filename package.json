@@ -1,0 +1,58 @@
+{
+  "name": "apollo-upload-examples-api",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "author": {
+    "name": "Jsweb Wizard",
+    "email": "jswebwizard@js.com",
+    "url": "https://jswebwizard.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/programist78/BASIC.git",
+    "directory": "api"
+  },
+  "engines": {
+    "node": "^14.17.0 || ^16.0.0 || >= 18.0.0",
+    "npm": ">= 7"
+  },
+  "dependencies": {
+    "@koa/cors": "^4.0.0",
+    "apollo-server-koa": "^3.10.2",
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.1",
+    "cookie": "^0.5.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
+    "graphql": "^16.6.0",
+    "graphql-tools": "^8.3.15",
+    "graphql-upload": "^16.0.2",
+    "jsonwebtoken": "^9.0.0",
+    "koa": "^2.13.4",
+    "koa-router": "^12.0.0",
+    "koa-static": "^5.0.0",
+    "lodash": "^4.17.21",
+    "make-dir": "^3.1.0",
+    "mongoose": "^6.8.3",
+    "shortid": "^2.2.16"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.5",
+    "@types/node": "^18.7.14",
+    "eslint": "^8.23.0",
+    "eslint-plugin-simple-import-sort": "^7.0.0",
+    "nodemon": "^2.0.19",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.2"
+  },
+  "scripts": {
+    "dev": "nodemon",
+    "type": "module",
+    "start": "node -r dotenv/config server.mjs",
+    "eslint": "eslint .",
+    "prettier": "prettier -c .",
+    "types": "tsc -p jsconfig.json",
+    "test": "npm run eslint && npm run prettier && npm run types"
+  }
+}
