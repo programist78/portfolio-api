@@ -19,7 +19,7 @@ async function startServer() {
 
   const corsOptions = {
     origin: 'https://web-x-wizard.vercel.app',
-    // credentials: true,
+    credentials: true,
     }
 
   const apolloServer = new ApolloServer({ schema });
