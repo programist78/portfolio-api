@@ -18,9 +18,8 @@ async function startServer() {
   await makeDir(fileURLToPath(UPLOAD_DIRECTORY_URL));
 
   const corsOptions = {
-    origin: 'http://localhost:3000',
-    // 'http://localhost:3001', 'http://localhost:4000/graphql'],
-    credentials: true,
+    origin: 'https://web-x-wizard.vercel.app',
+    // credentials: true,
     }
 
   const apolloServer = new ApolloServer({ schema });
@@ -39,7 +38,7 @@ async function startServer() {
     )
     .use(serve(path.join(__dirname, '/uploads')))
     // @ts-ignore
-    .use(cors())
+    .use(cors(corsOptions))
     .use(apolloServer.getMiddleware())
     .listen(process.env.PORT, () => {
       console.info(
