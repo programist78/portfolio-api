@@ -34,6 +34,9 @@ async function startServer() {
   await apolloServer.start();
 
   new Koa()
+  .use(async ctx => {
+    ctx.body = 'Hello World';
+  })
     .use(
       graphqlUploadKoa({
         // Limits here should be stricter than config for surrounding
