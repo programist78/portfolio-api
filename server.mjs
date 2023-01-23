@@ -39,9 +39,6 @@ async function startServer() {
         maxFiles: 20,
       })
     )
-    .use(async ctx => {
-      ctx.body = 'Hello World with norm cors';
-    })
     .use(serve(path.join(__dirname, '/uploads')))
     // @ts-ignore
     .use(cors(corsOptions))
