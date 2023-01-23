@@ -18,7 +18,7 @@ async function startServer() {
   await makeDir(fileURLToPath(UPLOAD_DIRECTORY_URL));
 
   const corsOptions = {
-    origin: ['https://web-x-wizard.vercel.app', 'https://web-x-wizard-euu52t8wc-programist78.vercel.app', 'https://web-x-wizard-euu52t8wc-programist78.vercel.app/login', 'https://web-x-wizard.vercel.app', "http://localhost:3000"],
+    origin: ['https://web-x-wizard.vercel.app'],
     credentials: true,
     // credentials: no-cors,
     }
@@ -40,7 +40,7 @@ async function startServer() {
     .use(serve(path.join(__dirname, '/uploads')))
     // @ts-ignore
     .use(cors(
-      // corsOptions
+      corsOptions
       ))
     .use(apolloServer.getMiddleware())
     .listen(process.env.PORT, () => {
