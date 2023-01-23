@@ -17,18 +17,18 @@ async function startServer() {
   // Ensure the upload directory exists.
   await makeDir(fileURLToPath(UPLOAD_DIRECTORY_URL));
 
-  // const corsOptions = {
-  //   origin: ['https://web-x-wizard.vercel.app'],
-  //   credentials: true,
-  //   // credentials: no-cors,
-  //   }
+  const corsOptions = {
+    origin: 'https://web-x-wizard.vercel.app',
+    // 'http://localhost:3001', 'http://localhost:4000/graphql'],
+    credentials: true,
+    }
 
-    const corsOptions ={
-      origin:'*', 
-      credentials:true,            //access-control-allow-credentials:true
-      optionSuccessStatus:200,
-   }
-
+  //   const corsOptions ={
+  //     origin:'https://web-x-wizard-programist78.vercel.app', 
+  //     // credentials:true,            //access-control-allow-credentials:true
+  //     optionSuccessStatus:200,
+  //  }
+  
   const apolloServer = new ApolloServer({ schema });
 
   await apolloServer.start();
