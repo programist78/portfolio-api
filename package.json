@@ -6,7 +6,7 @@
   "author": {
     "name": "webXwizard",
     "email": "web.ui.ux@gmail.com",
-    "url": "https://jswebwizard.com"
+    "url": "https://webXwizard.com"
   },
   "engines": {
     "node": "^14.17.0 || ^16.0.0 || >= 18.0.0",
@@ -43,12 +43,11 @@
     "typescript": "^4.8.2"
   },
   "scripts": {
-    "dev": "nodemon",
+    "dev": "nodemon server.mjs",
     "type": "module",
-    "start": "node -r dotenv/config server.mjs",
+
     "eslint": "eslint .",
     "prettier": "prettier -c .",
-    "types": "tsc -p jsconfig.json",
-    "test": "npm run eslint && npm run prettier && npm run types"
+    "types": "tsc -p jsconfig.json"
   }
 }
