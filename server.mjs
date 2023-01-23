@@ -18,8 +18,9 @@ async function startServer() {
   await makeDir(fileURLToPath(UPLOAD_DIRECTORY_URL));
 
   const corsOptions = {
-    origin: 'https://web-x-wizard.vercel.app',
-    credentials: true,
+    origin: ['https://web-x-wizard.vercel.app', 'https://web-x-wizard-euu52t8wc-programist78.vercel.app', 'https://web-x-wizard-euu52t8wc-programist78.vercel.app/login', 'https://web-x-wizard.vercel.app'],
+    // credentials: true,
+    credentials: no-cors,
     }
 
   const apolloServer = new ApolloServer({ schema });
