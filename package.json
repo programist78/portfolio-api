@@ -45,7 +45,7 @@
   "scripts": {
     "dev": "nodemon server.mjs",
     "type": "module",
-
+    "start": "node server.mjs",
     "eslint": "eslint .",
     "prettier": "prettier -c .",
     "types": "tsc -p jsconfig.json"
