@@ -18,25 +18,18 @@ async function startServer() {
   await makeDir(fileURLToPath(UPLOAD_DIRECTORY_URL));
 
   const corsOptions = {
-    origin: 'https://web-x-wizard.vercel.app',
+    origin: process.env.CLIENT,
     // 'http://localhost:3001', 'http://localhost:4000/graphql'],
     credentials: true,
     }
 
-  //   const corsOptions ={
-  //     origin:'https://web-x-wizard-programist78.vercel.app', 
-  //     // credentials:true,            //access-control-allow-credentials:true
-  //     optionSuccessStatus:200,
-  //  }
-  
+  const app = new Koa()
   const apolloServer = new ApolloServer({ schema });
 
   await apolloServer.start();
+  // apolloServer.applyMiddleware({ app, path: "/graphql", cors: false });
 
-  new Koa()
-  .use(async ctx => {
-    ctx.body = 'Hello World';
-  })
+  app
     .use(
       graphqlUploadKoa({
         // Limits here should be stricter than config for surrounding
@@ -46,12 +39,13 @@ async function startServer() {
         maxFiles: 20,
       })
     )
+    .use(async ctx => {
+      ctx.body = 'Hello World with norm cors';
+    })
     .use(serve(path.join(__dirname, '/uploads')))
     // @ts-ignore
-    .use(cors(
-      corsOptions
-      ))
-    .use(apolloServer.getMiddleware())
+    .use(cors(corsOptions))
+    .use(apolloServer.getMiddleware({ app, path: "/graphql", cors: false }))
     .listen(process.env.PORT, () => {
       console.info(
         `Serving http://localhost:${process.env.PORT} for ${process.env.NODE_ENV}.`
