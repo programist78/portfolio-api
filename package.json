@@ -17,6 +17,7 @@
     "apollo-server-koa": "^3.10.2",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
+    "chalk": "^5.2.0",
     "cookie": "^0.5.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",

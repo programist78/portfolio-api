@@ -3,6 +3,7 @@
 import { ApolloServer } from "apollo-server-koa";
 import graphqlUploadKoa from "graphql-upload/graphqlUploadKoa.mjs";
 import Koa from "koa";
+import chalk from 'chalk'
 import makeDir from "make-dir";
 import { fileURLToPath } from "node:url";
 import mongoose from 'mongoose';
@@ -13,10 +14,11 @@ import path from 'path'
 import cors from "@koa/cors";
 const __dirname = path.resolve();
 /** Starts the API server. */
+const errorMsg = chalk.bold.red;
+const successMsg = chalk.bold.blue;
 async function startServer() {
   // Ensure the upload directory exists.
   await makeDir(fileURLToPath(UPLOAD_DIRECTORY_URL));
-
   const corsOptions = {
     origin: process.env.CLIENT,
     // 'http://localhost:3001', 'http://localhost:4000/graphql'],
@@ -44,9 +46,9 @@ async function startServer() {
     .use(cors(corsOptions))
     .use(apolloServer.getMiddleware({ app, path: "/graphql", cors: false }))
     .listen(process.env.PORT, () => {
-      console.info(
+      console.info(successMsg(
         `Serving http://localhost:${process.env.PORT} for ${process.env.NODE_ENV}.`
-      );
+      ));
     });
 }
 
@@ -55,8 +57,8 @@ mongoose
   .connect(process.env.MONGO_DB, {
     useUnifiedTopology: true,
     useNewUrlParser: true
-  }).then(() => console.log('💖Db ok'))
-  .catch((err) => console.log('DB error ❌', err))
+  }).then(() => console.log(successMsg(('💖Db ok'))))
+  .catch((err) => console.log(errorMsg('DB error ❌', err)))
 
 
 startServer();
