@@ -33,6 +33,7 @@ const typeDefs = `#graphql
   type Query {
     getAllPosts: [PostwImg]
     getPost(id: ID): PostwImg
+    hello: String
   }
 
   input PostInput {

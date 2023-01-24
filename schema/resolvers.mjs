@@ -20,6 +20,9 @@ const resolvers = {
         getPost: async(_parent, {id}, _context, _info) => {
             return await PostwImg.findById(id)
         },
+        hello: () => {
+            return "Hello world!"
+        },
     },
     Mutation: {
         deletePost: async (parent, args, context, info) => {
