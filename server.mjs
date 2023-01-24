@@ -47,6 +47,11 @@ async function startServer() {
       corsOptions
       ))
     .use(apolloServer.getMiddleware({ app, path: "/graphql", cors: false }))
+    // use(
+    //   koaMiddleware(apolloServer, {
+    //     context: async ({ ctx }) => ({ token: ctx.headers.token }),
+    //   })
+    // )
     .listen(process.env.PORT, () => {
       console.info(successMsg(
         `Serving http://localhost:${process.env.PORT} for ${process.env.NODE_ENV}.`
