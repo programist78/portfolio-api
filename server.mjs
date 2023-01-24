@@ -20,7 +20,7 @@ async function startServer() {
   // Ensure the upload directory exists.
   await makeDir(fileURLToPath(UPLOAD_DIRECTORY_URL));
   const corsOptions = {
-    origin: process.env.CLIENT,
+    origin: "*",
     // 'http://localhost:3001', 'http://localhost:4000/graphql'],
     credentials: true,
     }
@@ -43,7 +43,9 @@ async function startServer() {
     )
     .use(serve(path.join(__dirname, '/uploads')))
     // @ts-ignore
-    .use(cors(corsOptions))
+    .use(cors(
+      corsOptions
+      ))
     .use(apolloServer.getMiddleware({ app, path: "/graphql", cors: false }))
     .listen(process.env.PORT, () => {
       console.info(successMsg(
