@@ -7,9 +7,15 @@ import path from "path";
 import fs from  'fs'
 import GraphQLUpload from "graphql-upload/GraphQLUpload.mjs";
 import PostwImg from "../models/PostwImg.js";
+import ImageUpload from "../models/ImageUpload.js";
+import { createUploadStream } from '../modules/streams.js';
+import AWS from 'aws-sdk'
 const __dirname = path.resolve();
 dotenv.config()
-
+const s3 = new AWS.S3({
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.ACCESS_KEY_SECRET,
+  });
 
 const resolvers = {
     Upload: GraphQLUpload,
@@ -53,13 +59,25 @@ const resolvers = {
         createPost: async (parent,{ file, post }) => {
             let images = [];
             for (let i = 0; i < file.length; i++) {
-            const { createReadStream, filename, mimetype } = await file[i];
-            const stream = createReadStream();
+            const { createReadStream, filename, mimetype, encoding } = await file[i];
+            // const parts = filename.split('.');
+            // const extension = parts[parts.length - 1];
+            // const stream = createReadStream();
             const assetUniqName = fileRenamer(filename);
-            const pathName = path.join(__dirname,   `./uploads/${assetUniqName}`);
-            await stream.pipe(fs.createWriteStream(pathName));
-            const urlForArray = `${process.env.HOST}/${assetUniqName}`;
-            images.push(urlForArray);
+            const bucketName = process.env.BUCKET_NAME;
+            const params = {
+                Bucket: bucketName,
+                Key: assetUniqName,
+                Body: createReadStream(),
+                // ACL: 'public-read',
+                ContentType: mimetype,
+              };
+              
+              const uploadResult = await s3.upload(params).promise();
+            // const pathName = path.join(__dirname,   `./uploads/${assetUniqName}.${extension}`);
+            // await stream.pipe(fs.createWriteStream(pathName));
+            // const urlForArray = `${process.env.HOST}/${assetUniqName}.${extension}`;
+            images.push(uploadResult.Location);
             }
             const title = post.title
             const text = post.text
@@ -67,6 +85,52 @@ const resolvers = {
             await postwimg.save()
             return postwimg;
         },
+        fileUpload: async (parent, { file }) => {
+            const { filename, createReadStream } = await file;
+
+            const stream = createReadStream();
+      
+            let result;
+      
+            try {
+              const uploadStream = createUploadStream(filename);
+              stream.pipe(uploadStream.writeStream);
+              result = await uploadStream.promise;
+            } catch (error) {
+              console.log(
+                `[Error]: Message: ${error.message}, Stack: ${error.stack}`
+              );
+              throw new ApolloError("Error uploading file");
+            }
+            // console.log(result)
+            return result;
+          },
+          uploadImage: async (parent, { file }) => {
+            const { createReadStream, filename, mimetype, encoding } = await file;
+
+            const bucketName = process.env.BUCKET_NAME;
+            const assetUniqName = fileRenamer(filename);
+            const params = {
+                Bucket: bucketName,
+                Key: assetUniqName,
+                Body: createReadStream(),
+                // ACL: 'public-read',
+                ContentType: mimetype,
+              };
+        
+              const uploadResult = await s3.upload(params).promise();
+        
+            //   const imageObj = {
+            //     _id: ObjectId(),
+            //     filename,
+            //     url: uploadResult.Location,
+            //   };
+        
+            //   await db.collection('images').insertOne(imageObj);
+              const imagedb = new ImageUpload({ filename, url:uploadResult.Location  })
+              let result = imagedb.save() 
+              return result;
+          },
         registerUser: async(parent, args, context, info) => {
             try {
                 const { fullname, email, password, roles } = args.about

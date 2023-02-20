@@ -13,8 +13,11 @@
     "npm": ">= 7"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.272.0",
+    "@aws-sdk/lib-storage": "^3.272.0",
     "@koa/cors": "^4.0.0",
     "apollo-server-koa": "^3.10.2",
+    "aws-sdk": "^2.1318.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "chalk": "^5.2.0",

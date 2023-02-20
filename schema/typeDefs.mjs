@@ -16,6 +16,14 @@ const typeDefs = `#graphql
     images: [String]
   }
 
+  type FileUploadResponse {
+  ETag: String!
+  Location: String!
+  key: String!
+  Key: String!
+  Bucket: String
+  }
+
   type Role {
     id: ID
     value: String
@@ -36,6 +44,12 @@ const typeDefs = `#graphql
     hello: String
   }
 
+  type Image {
+  id: ID!
+  filename: String!
+  url: String!
+}
+
   input PostInput {
     title: String
     text: String
@@ -55,6 +69,8 @@ const typeDefs = `#graphql
 
   type Mutation {
     createPost(post: PostInput, file: [Upload]!): PostwImg
+    fileUpload(file: Upload!): FileUploadResponse!
+    uploadImage(file: Upload!): Image!
     deletePost(id: ID): String
     updatePost(id: ID,post: PostInput, file: [Upload]!): [PostwImg]!
     loginUser(id: ID, about: LoginInput): AuthPayload
