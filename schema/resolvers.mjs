@@ -21,7 +21,8 @@ const resolvers = {
     Upload: GraphQLUpload,
     Query: {
         getAllPosts: async () => {
-            return await PostwImg.find()
+            const sortQuery = { createdAt: -1 };
+            return await PostwImg.find().sort(sortQuery)
         },
         getPost: async(_parent, {id}, _context, _info) => {
             return await PostwImg.findById(id)
